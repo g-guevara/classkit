@@ -67,7 +67,7 @@ export default function Home() {
       <div className="relative h-[200px] md:h-[300px] w-full overflow-hidden">
         <div className="absolute inset-0">
         <Image 
-  src= "/iconapps.png"
+  src= "/5tgb6yhn7ujm.png"
   alt="Campus banner" 
   fill 
   style={{ objectFit: "cover" }}
