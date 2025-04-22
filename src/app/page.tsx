@@ -11,38 +11,37 @@ export default function Home() {
   const courses = [
     {
       id: 1,
-      title: "Ingeniería Civil en Obras Civiles",
-      description: "Ingreso vía Ingeniería Civil (plan común) en ambos campus.",
-      imageUrl: "/example.png",
-      author: "Juan Pérez" 
+      title: "Horario en común",
+      description: "Encuentra espacios en común con otro alumno.",
+      imageUrl: "/people.png",
+      author: "Extención app Mis Salas",
+      link: "/horario-comun" 
     },
     {
       id: 2,
-      title: "Ingeniería Civil en Minería",
-      description: "Ingreso vía Ingeniería Civil (plan común)",
-      imageUrl: "/images/mineria.jpg",
-      author: "María González"
+      title: "Horaio de clases",
+      description: "Comparte tu horario personalizando.",
+      imageUrl: "/week.png",
+      author: "Extención app Mis Salas",
+      link: "/nice-calendar" // URL personalizada
     },
+
     {
       id: 3,
-      title: "Ingeniería en Computer Science",
-      description: "Nueva carrera 2024",
-      imageUrl: "/images/computer-science.jpg",
-      author: "Carlos Rodríguez"
+      title: "Extención Google Calendar",
+      description: "Extensión de Mis Salas para Google Calendar",
+      imageUrl: "/gg.png",
+      author: "Extención app Mis Salas",
+      link: "/g-calendar" // URL personalizada
     },
-    {
-      id: 4,
-      title: "Bachillerato de Ingeniería Civil",
-      description: "Programa de un año de duración conducente a 7 carreras de ingeniería Civil y convalidación del equivalente a un semestre.",
-      imageUrl: "/images/bachillerato.jpg",
-      author: "Ana López"
-    },
+
     {
       id: 5,
-      title: "Ingeniería Civil Industrial",
-      description: "Ingreso vía Ingeniería Civil (plan común) en ambos campus. Ingreso directo en Campus Viña del Mar",
-      imageUrl: "/images/industrial.jpg",
-      author: "Diego Martínez"
+      title: "Merchandaising",
+      description: "Compra polerones, poleras, botellas y mas.",
+      imageUrl: "/mch.png",
+      author: "Diego Martínez",
+      link: "/civil-industrial" // URL personalizada
     },
   ];
 
@@ -203,11 +202,11 @@ export default function Home() {
               {/* El resto mantiene el estilo original */}
               <div className="p-4">
                 <h3 className="font-bold text-lg mb-2">{course.title}</h3>
+                <p className="text-sm text-gray-400 italic mb-2">Por: {course.author}</p>             
                 <p className="text-sm text-gray-600 mb-2">{course.description}</p>
-                {/* Autor en cursiva */}
-                <p className="text-xs text-gray-500 italic mb-3">Por: {course.author}</p>
+
                 <Link 
-                  href={`/courses/${course.id}`} 
+                  href={course.link} 
                   className="text-blue-500 font-medium text-sm inline-block"
                 >
                   SABER +
