@@ -92,7 +92,7 @@ export default function NiceCalendar() {
     },
     { 
       id: 6, 
-      name: 'Economía', 
+      name: 'haccer recuadro de settings arriba', 
       color: 'bg-green-200',
       textColor: 'text-green-800',
       dayIndex: 1, 
@@ -102,7 +102,7 @@ export default function NiceCalendar() {
     },
     { 
       id: 7, 
-      name: 'Lab Info', 
+      name: 'asegurar el flujo del telefono tambien', 
       color: 'bg-red-200',
       textColor: 'text-red-800',
       dayIndex: 1, 
@@ -142,7 +142,7 @@ export default function NiceCalendar() {
     },
     { 
       id: 11, 
-      name: 'Sys Arq', 
+      name: 'armar el cipypaste ideal de missalas', 
       color: 'bg-yellow-200',
       textColor: 'text-yellow-800',
       dayIndex: 3, 
