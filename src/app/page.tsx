@@ -30,9 +30,18 @@ export default function Home() {
       id: 3,
       title: "Extención Google Calendar",
       description: "Extensión de Mis Salas para Google Calendar",
-      imageUrl: "/gg.png",
+      imageUrl: "/gg6.png",
       author: "Extención app Mis Salas",
       link: "/g-calendar" // URL personalizada
+    },
+
+    {
+      id: 4,
+      title: "Campus Google Maps",
+      description: "Explora los campus con Google Maps.",
+      imageUrl: "/gmp.png",
+      author: "Joaquín Arriagada",
+      link: "/gmp.png" // URL personalizada
     },
 
     {
@@ -186,7 +195,7 @@ export default function Home() {
         {/* Courses Grid - Con fotos de app más pequeñas */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 relative">
           {filteredCourses.map((course) => (
-            <div key={course.id} className="border border-gray-200 rounded-md overflow-hidden">
+            <div key={course.id} className="border border-gray-300  overflow-hidden">
               {/* Contenedor de imagen con padding mayor para hacer que la imagen sea más pequeña */}
               <div className="h-40 relative p-4 bg-gray-50 flex items-center justify-center">
                 <div className="w-28 h-28 relative rounded-3xl overflow-hidden shadow-md border border-gray-200">
