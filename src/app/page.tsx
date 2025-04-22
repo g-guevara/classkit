@@ -62,7 +62,7 @@ export default function Home() {
 
   // Define la imagen del hero banner
   const heroBanner = {
-    imageUrl: "/iconapps.png",
+    imageUrl: "/vkh2.jpg",
     title: "Apps y webs alumnos"
   };
 
