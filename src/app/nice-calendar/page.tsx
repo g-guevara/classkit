@@ -112,7 +112,7 @@ export default function NiceCalendar() {
     },
     { 
       id: 8, 
-      name: 'A. Eco', 
+      name: 'falta esconder nombres', 
       color: 'bg-green-200',
       textColor: 'text-green-800',
       dayIndex: 1, 
@@ -122,7 +122,7 @@ export default function NiceCalendar() {
     },
     { 
       id: 9, 
-      name: 'Progra P', 
+      name: 'q hago con los colores', 
       color: 'bg-purple-200',
       textColor: 'text-purple-800',
       dayIndex: 2, 
@@ -132,7 +132,7 @@ export default function NiceCalendar() {
     },
     { 
       id: 10, 
-      name: 'Progra P', 
+      name: 'poner nombre usuario', 
       color: 'bg-purple-200',
       textColor: 'text-purple-800',
       dayIndex: 2, 
@@ -250,10 +250,8 @@ export default function NiceCalendar() {
               <div key={index} className="flex-1 min-w-[120px]">
                 {/* Day header */}
                 <div className="h-16 flex flex-col items-center justify-center">
-                  <div className="text-xs text-gray-500">{day.abbr}</div>
-                  <div className={`text-2xl font-bold ${index === 0 ? 'bg-blue-100 text-blue-800 rounded-full w-10 h-10 flex items-center justify-center' : ''}`}>
-                    {day.date}
-                  </div>
+                  <div className="text-x text-gray-200">{day.abbr}</div>
+
                 </div>
                 
                 {/* Grid cells for each hour */}
