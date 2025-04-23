@@ -7,7 +7,7 @@ export interface DayOfWeek {
 }
 
 export interface ClassItem {
-  id: number;
+  id: number | string; // Allow both number and string
   name: string;
   dayIndex: number;
   startHour: number;
