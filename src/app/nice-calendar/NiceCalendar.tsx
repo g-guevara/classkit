@@ -31,6 +31,7 @@ interface NiceCalendarProps {
   };
   calendarRef: RefObject<HTMLDivElement>;
   fullCalendarRef: RefObject<HTMLDivElement>;
+  handleOpenPasteModal: () => void;
 }
 
 export const NiceCalendar = ({
@@ -49,7 +50,8 @@ export const NiceCalendar = ({
   classes,
   getClassStyle,
   calendarRef,
-  fullCalendarRef
+  fullCalendarRef,
+  handleOpenPasteModal
 }: NiceCalendarProps) => {
   // CSS styles without Tailwind color utilities to prevent OKLCH format issues
   const panelStyle = {
@@ -106,7 +108,7 @@ export const NiceCalendar = ({
     overflow: "hidden"
   };
 
-  const pegarHorarioStyle = {
+  const pasteScheduleButtonStyle = {
     display: "flex",
     alignItems: "center",
     border: "2px dashed #3B82F6",
@@ -216,13 +218,17 @@ export const NiceCalendar = ({
               </div>
             </div>
             
-            <div style={pegarHorarioStyle}>
+            {/* Botón para pegar horario */}
+            <button 
+              onClick={handleOpenPasteModal}
+              style={pasteScheduleButtonStyle}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: "0.5rem" }}>
                 <path d="M4 11V8a1 1 0 0 1 1-1h5V3h4v4h5a1 1 0 0 1 1 1v3" />
                 <path d="M4 13v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" />
               </svg>
               Pega horario
-            </div>
+            </button>
             
             <button onClick={toggleTheme} style={toggleButtonStyle}>
               {darkMode ? (

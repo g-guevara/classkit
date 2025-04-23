@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { 
   DayOfWeek, 
   ClassItem, 
@@ -13,6 +13,7 @@ import {
 } from "./types";
 import NiceCalendar from "./NiceCalendar";
 import { renderCalendarToCanvas } from "./CalendarRender";
+import { parseScheduleText, convertParsedEventsToClassItems } from "./pasteScheduleParser";
 
 export const NiceCalendarContainer = () => {
   // State for title, subtitle, color and theme
@@ -20,6 +21,8 @@ export const NiceCalendarContainer = () => {
   const [subtitle, setSubtitle] = useState("");
   const [selectedColor, setSelectedColor] = useState("#3B82F6"); // Default blue color
   const [darkMode, setDarkMode] = useState(true); // Default to dark mode
+  const [showPasteModal, setShowPasteModal] = useState(false);
+  const [pasteValue, setPasteValue] = useState("");
   
   // Create refs with proper typing
   const calendarRef = useRef<HTMLDivElement>(null);
@@ -31,7 +34,43 @@ export const NiceCalendarContainer = () => {
   // State for days, hours, and classes
   const [daysOfWeek] = useState<DayOfWeek[]>(DEFAULT_DAYS_OF_WEEK);
   const [hours] = useState<HourMark[]>(DEFAULT_HOURS);
-  const [classes] = useState<ClassItem[]>(DEFAULT_CLASSES);
+  const [classes, setClasses] = useState<ClassItem[]>(DEFAULT_CLASSES);
+
+  // Handlers for the paste functionality
+  const handleOpenPasteModal = () => {
+    setShowPasteModal(true);
+  };
+
+  const handleClosePasteModal = () => {
+    setShowPasteModal(false);
+    setPasteValue("");
+  };
+
+  const handlePasteSchedule = useCallback(() => {
+    if (!pasteValue.trim()) {
+      handleClosePasteModal();
+      return;
+    }
+    
+    try {
+      // Parsear el texto pegado
+      const parsedEvents = parseScheduleText(pasteValue);
+      // Convertir a formato de clase para el calendario
+      const newClassItems = convertParsedEventsToClassItems(parsedEvents);
+      
+      if (newClassItems.length > 0) {
+        setClasses(newClassItems);
+        // Mantener el subtítulo como estaba antes
+      } else {
+        alert('No se pudieron encontrar eventos en el texto pegado. Asegúrate de pegar el formato correcto.');
+      }
+    } catch (error) {
+      console.error("Error procesando el horario pegado:", error);
+      alert('Error al procesar el horario. Verifica el formato.');
+    }
+    
+    handleClosePasteModal();
+  }, [pasteValue, subtitle]);
 
   // Handle download using the canvas renderer
   const handleDownload = async () => {
@@ -86,24 +125,112 @@ export const NiceCalendarContainer = () => {
 
   // Pass all needed props to the presentation component
   return (
-    <NiceCalendar
-      title={title}
-      setTitle={setTitle}
-      subtitle={subtitle}
-      setSubtitle={setSubtitle}
-      selectedColor={selectedColor}
-      handleColorChange={handleColorChange}
-      darkMode={darkMode}
-      toggleTheme={toggleTheme}
-      handleDownload={handleDownload}
-      currentTheme={currentTheme}
-      daysOfWeek={daysOfWeek}
-      hours={hours}
-      classes={classes}
-      getClassStyle={getClassStyle}
-      calendarRef={calendarRef}
-      fullCalendarRef={fullCalendarRef}
-    />
+    <>
+      <NiceCalendar
+        title={title}
+        setTitle={setTitle}
+        subtitle={subtitle}
+        setSubtitle={setSubtitle}
+        selectedColor={selectedColor}
+        handleColorChange={handleColorChange}
+        darkMode={darkMode}
+        toggleTheme={toggleTheme}
+        handleDownload={handleDownload}
+        currentTheme={currentTheme}
+        daysOfWeek={daysOfWeek}
+        hours={hours}
+        classes={classes}
+        getClassStyle={getClassStyle}
+        calendarRef={calendarRef}
+        fullCalendarRef={fullCalendarRef}
+        handleOpenPasteModal={handleOpenPasteModal}
+      />
+      
+      {/* Modal para pegar horario */}
+      {showPasteModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: currentTheme.background,
+            borderRadius: '0.5rem',
+            padding: '1.5rem',
+            width: '90%',
+            maxWidth: '600px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            color: currentTheme.text
+          }}>
+            <h2 style={{ marginBottom: '1rem', fontSize: '1.25rem', fontWeight: 'bold' }}>Pegar Horario</h2>
+            <p style={{ marginBottom: '1rem', fontSize: '0.875rem', color: darkMode ? '#9ca3af' : '#6b7280' }}>
+              Pega el texto de tu horario exportado desde la app Mis Salas, en formato "MIS EVENTOS".
+            </p>
+            
+            <textarea
+              style={{
+                width: '100%',
+                height: '200px',
+                padding: '0.75rem',
+                borderRadius: '0.25rem',
+                border: `1px solid ${currentTheme.border}`,
+                backgroundColor: currentTheme.background,
+                color: currentTheme.text,
+                resize: 'vertical',
+                marginBottom: '1rem'
+              }}
+              value={pasteValue}
+              onChange={(e) => setPasteValue(e.target.value)}
+              placeholder="MIS EVENTOS
+
+## N1. LIDERAZGO Sec.13 Prof.NEULING,J.
+   Tipo: Cátedra
+   Día: Lunes
+   Horario: 13:00 - 14:10
+## N2. LIDERAZGO Sec.13 Prof.NEULING,J.
+   Tipo: Cátedra
+   Día: Lunes
+   Horario: 11:30 - 12:40
+..."
+            />
+            
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
+              <button
+                onClick={handleClosePasteModal}
+                style={{
+                  padding: '0.5rem 1rem',
+                  borderRadius: '0.25rem',
+                  border: `1px solid ${currentTheme.border}`,
+                  backgroundColor: 'transparent',
+                  color: currentTheme.text
+                }}
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handlePasteSchedule}
+                style={{
+                  padding: '0.5rem 1rem',
+                  borderRadius: '0.25rem',
+                  backgroundColor: '#3B82F6',
+                  color: 'white',
+                  border: 'none'
+                }}
+              >
+                Aplicar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
