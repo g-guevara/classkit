@@ -141,8 +141,8 @@ export const NiceCalendarContainer = () => {
         hours={hours}
         classes={classes}
         getClassStyle={getClassStyle}
-        calendarRef={calendarRef}
-        fullCalendarRef={fullCalendarRef}
+        calendarRef={calendarRef as React.RefObject<HTMLDivElement>}
+        fullCalendarRef={fullCalendarRef as React.RefObject<HTMLDivElement>}
         handleOpenPasteModal={handleOpenPasteModal}
       />
       

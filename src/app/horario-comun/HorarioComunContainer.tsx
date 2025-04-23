@@ -180,8 +180,8 @@ export const HorarioComunContainer = () => {
         hours={hours}
         schedules={schedules}
         getClassStyle={getClassStyle}
-        calendarRef={calendarRef}
-        fullCalendarRef={fullCalendarRef}
+        calendarRef={calendarRef as React.RefObject<HTMLDivElement>}
+        fullCalendarRef={fullCalendarRef as React.RefObject<HTMLDivElement>}
         handleOpenPasteModal={handleOpenPasteModal}
       />
       
