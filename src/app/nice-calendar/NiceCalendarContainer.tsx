@@ -188,17 +188,7 @@ export const NiceCalendarContainer = () => {
               }}
               value={pasteValue}
               onChange={(e) => setPasteValue(e.target.value)}
-              placeholder="MIS EVENTOS
-
-## N1. LIDERAZGO Sec.13 Prof.NEULING,J.
-   Tipo: Cátedra
-   Día: Lunes
-   Horario: 13:00 - 14:10
-## N2. LIDERAZGO Sec.13 Prof.NEULING,J.
-   Tipo: Cátedra
-   Día: Lunes
-   Horario: 11:30 - 12:40
-..."
+              placeholder="MIS EVENTOS..."
             />
             
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>

@@ -116,6 +116,7 @@ export const NiceCalendar = ({
     padding: "0.75rem 1rem",
     color: "#60a5fa",
     cursor: "pointer",
+    marginTop: "1rem",
     marginRight: "1rem"
   };
 
@@ -213,7 +214,13 @@ export const NiceCalendar = ({
                   type="color" 
                   value={selectedColor}
                   onChange={handleColorChange}
-                  style={{ width: "100%", height: "100%", border: "none" }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    alignSelf: "center",
+
+                  }}
+                  
                 />
               </div>
             </div>
