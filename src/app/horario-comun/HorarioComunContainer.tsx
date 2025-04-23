@@ -144,12 +144,21 @@ export const HorarioComunContainer = () => {
     // Check if this time slot is common
     const isCommonTimeSlot = isClassInCommonSlots(classItem, commonTimeSlots);
     
+    // If scheduleIndex is undefined but class ID contains a scheduleIndex, extract it
+    let effectiveScheduleIndex = scheduleIndex;
+    if (effectiveScheduleIndex === undefined && typeof classItem.id === 'string') {
+      const match = classItem.id.match(/^(\d+)-/);
+      if (match) {
+        effectiveScheduleIndex = parseInt(match[1]);
+      }
+    }
+    
     return {
       top: `${startPosition}px`,
       height: `${duration}px`,
       left: `0`,
       right: `0`,
-      backgroundColor: isCommonTimeSlot ? "#10B981" : (scheduleIndex !== undefined ? scheduleColors[scheduleIndex] : "#3B82F6"),
+      backgroundColor: isCommonTimeSlot ? "#10B981" : (effectiveScheduleIndex !== undefined ? scheduleColors[effectiveScheduleIndex] : "#3B82F6"),
       opacity: isCommonTimeSlot ? 1 : 0.7,
     };
   };
@@ -330,7 +339,7 @@ function findCommonTimeSlots(schedules: ScheduleData[]): ClassItem[] {
       if (nextTime !== currentTime + 0.5 || i === times.length) {
         // End of a block, create a ClassItem
         commonSlots.push({
-          id: id++,
+          id: `common-${dayIndex}-${startTime}`, // Create a truly unique ID
           name: "Horario en común",
           dayIndex,
           startHour: startTime,

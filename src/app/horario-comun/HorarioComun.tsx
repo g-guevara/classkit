@@ -192,10 +192,12 @@ export const HorarioComun = ({
   const allSchedulesLoaded = schedules.every(schedule => schedule.isLoaded);
 
   // Combine all classes from all schedules for display
-  const allClasses = schedules.flatMap((schedule, index) => 
+  // Add a unique key by combining the schedule index with the class id
+  const allClasses = schedules.flatMap((schedule, scheduleIndex) => 
     schedule.classes.map(classItem => ({
       ...classItem,
-      scheduleIndex: index  // Add schedule index to track which schedule it belongs to
+      id: `${scheduleIndex}-${classItem.id}`, // Create a unique ID combining schedule index and class ID
+      scheduleIndex // Add schedule index to track which schedule it belongs to
     }))
   );
 
