@@ -114,7 +114,7 @@ export default function Home() {
       <div className="px-6 md:px-16 py-10 grid md:grid-cols-2 gap-8">
         <div>
           <p className="text-gray-700 mb-4">
-            Destácate como estudiante desarrollando una aplicación o página web que tenga un impacto positivo en nuestra comunidad. Esta es tu oportunidad de aplicar tus conocimientos, demostrar tu creatividad y generar un cambio real en el entorno que te rodea.
+            Destácate como estudiante desarrollando una aplicación o página web que tenga un impacto positivo en nuestra comunidad. 
           </p>
           {/* Botón "AGREGA TU APP" - rectangular, sin bordes redondeados, sin sombra, celeste */}
           <Link 
