@@ -5,7 +5,8 @@ import {
   DayOfWeek, 
   ClassItem, 
   HourMark, 
-  ThemeColors
+  ThemeColors,
+  getTextColor
 } from "./types";
 
 interface NiceCalendarProps {
@@ -28,7 +29,6 @@ interface NiceCalendarProps {
     left: string;
     right: string;
   };
-  // Fix the ref types to properly handle null values
   calendarRef: RefObject<HTMLDivElement>;
   fullCalendarRef: RefObject<HTMLDivElement>;
 }
