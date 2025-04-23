@@ -4,8 +4,8 @@ import { RefObject } from "react";
 import { ThemeColors, ClassItem, DayOfWeek, HourMark } from "./types";
 
 interface NiceCalendarGridProps {
-fullCalendarRef: RefObject<HTMLDivElement>;
-calendarRef: RefObject<HTMLDivElement>;
+    fullCalendarRef: RefObject<HTMLDivElement>;
+    calendarRef: RefObject<HTMLDivElement>;
   title: string;
   subtitle: string;
   currentTheme: ThemeColors;
