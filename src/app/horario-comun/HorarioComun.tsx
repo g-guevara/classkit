@@ -31,8 +31,8 @@ interface HorarioComunProps {
     backgroundColor: string;
     opacity: number;
   };
-  calendarRef: RefObject<HTMLDivElement>;
-  fullCalendarRef: RefObject<HTMLDivElement>;
+  calendarRef: RefObject<HTMLDivElement | null>;
+  fullCalendarRef: RefObject<HTMLDivElement | null>;
   handleOpenPasteModal: (index: number) => void;
 }
 
