@@ -36,15 +36,16 @@ export const NiceCalendarContainer = () => {
   const [hours] = useState<HourMark[]>(DEFAULT_HOURS);
   const [classes, setClasses] = useState<ClassItem[]>(DEFAULT_CLASSES);
 
-  // Handlers for the paste functionality
-  const handleOpenPasteModal = () => {
+  // Display a welcome message if no classes are present
+  const handleOpenPasteModal = useCallback(() => {
+    // Evitar que cualquier otro evento se propague
     setShowPasteModal(true);
-  };
+  }, []);
 
-  const handleClosePasteModal = () => {
+  const handleClosePasteModal = useCallback(() => {
     setShowPasteModal(false);
     setPasteValue("");
-  };
+  }, []);
 
   const handlePasteSchedule = useCallback(() => {
     if (!pasteValue.trim()) {
@@ -60,7 +61,6 @@ export const NiceCalendarContainer = () => {
       
       if (newClassItems.length > 0) {
         setClasses(newClassItems);
-        // Mantener el subtítulo como estaba antes
       } else {
         alert('No se pudieron encontrar eventos en el texto pegado. Asegúrate de pegar el formato correcto.');
       }
@@ -70,7 +70,7 @@ export const NiceCalendarContainer = () => {
     }
     
     handleClosePasteModal();
-  }, [pasteValue, subtitle]);
+  }, [pasteValue]);
 
   // Handle download using the canvas renderer
   const handleDownload = async () => {
@@ -148,27 +148,38 @@ export const NiceCalendarContainer = () => {
       
       {/* Modal para pegar horario */}
       {showPasteModal && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 1000
-        }}>
-          <div style={{
-            backgroundColor: currentTheme.background,
-            borderRadius: '0.5rem',
-            padding: '1.5rem',
-            width: '90%',
-            maxWidth: '600px',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            color: currentTheme.text
-          }}>
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000
+          }}
+          onClick={(e) => {
+            // Cerrar el modal solo si se hace clic en el fondo oscuro
+            if (e.target === e.currentTarget) {
+              handleClosePasteModal();
+            }
+          }}
+        >
+          <div 
+            style={{
+              backgroundColor: currentTheme.background,
+              borderRadius: '0.5rem',
+              padding: '1.5rem',
+              width: '90%',
+              maxWidth: '600px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              color: currentTheme.text
+            }}
+            onClick={(e) => e.stopPropagation()} // Evitar que los clics dentro del modal se propaguen
+          >
             <h2 style={{ marginBottom: '1rem', fontSize: '1.25rem', fontWeight: 'bold' }}>Pegar Horario</h2>
             <p style={{ marginBottom: '1rem', fontSize: '0.875rem', color: darkMode ? '#9ca3af' : '#6b7280' }}>
               Pega el texto de tu horario exportado desde la app Mis Salas, en formato "MIS EVENTOS".

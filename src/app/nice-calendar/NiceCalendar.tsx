@@ -109,13 +109,16 @@ export const NiceCalendar = ({
   const pasteScheduleButtonStyle = {
     display: "flex",
     alignItems: "center",
+    justifyContent: "center",
     border: "2px dashed #3B82F6",
     borderRadius: "0.25rem",
     padding: "0.75rem 1rem",
     color: "#60a5fa",
     cursor: "pointer",
-    marginTop: "1rem",
-    marginRight: "1rem"
+    backgroundColor: "transparent",
+    outline: "none",
+    position: "relative" as const,
+    zIndex: 2
   };
 
   const toggleSwitchStyle = {
@@ -192,6 +195,7 @@ export const NiceCalendar = ({
             <button 
               onClick={handleDownload}
               style={buttonStyle}
+              type="button"
             >
               Descargar
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: "0.5rem" }}>
@@ -209,7 +213,8 @@ export const NiceCalendar = ({
                   backgroundColor: selectedColor,
                   display: "flex",
                   justifyContent: "center",
-                  alignItems: "center"
+                  alignItems: "center",
+                  position: "relative"
                 }}
               >
                 <input 
@@ -222,24 +227,30 @@ export const NiceCalendar = ({
                     width: "100%",
                     height: "100%",
                     cursor: "pointer",
+                    zIndex: 1
                   }}
+                  aria-label="Selector de color"
                 />
               </div>
             </div>
             
-            {/* Paste schedule button */}
-            <button 
-              onClick={handleOpenPasteModal}
-              style={pasteScheduleButtonStyle}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: "0.5rem" }}>
-                <path d="M4 11V8a1 1 0 0 1 1-1h5V3h4v4h5a1 1 0 0 1 1 1v3" />
-                <path d="M4 13v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" />
-              </svg>
-              Pega horario
-            </button>
+            <div style={{ marginLeft: "1rem", marginTop:"1rem" }}>
+              {/* Paste schedule button in its own container */}
+              <button 
+                onClick={handleOpenPasteModal}
+                style={pasteScheduleButtonStyle}
+                type="button"
+                aria-label="Pegar horario"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: "0.5rem" }}>
+                  <path d="M4 11V8a1 1 0 0 1 1-1h5V3h4v4h5a1 1 0 0 1 1 1v3" />
+                  <path d="M4 13v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" />
+                </svg>
+                Pega horario
+              </button>
+            </div>
             
-            <div style={{ display: "flex", alignItems: "center", marginLeft: "1rem" }}>
+            <div style={{ display: "flex", alignItems: "center", marginLeft: "1rem", marginTop:"1rem" }}>
               <div style={{ display: "flex", alignItems: "center" }}>
                 {darkMode ? (
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
