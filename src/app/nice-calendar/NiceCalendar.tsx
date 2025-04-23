@@ -1,13 +1,9 @@
 "use client";
 
 import { RefObject } from "react";
-import { 
-  DayOfWeek, 
-  ClassItem, 
-  HourMark, 
-  ThemeColors,
-  getTextColor
-} from "./types";
+import { ThemeColors } from "./types";
+import NiceCalendarHeader from "./NiceCalendarHeader";
+import NiceCalendarGrid from "./NiceCalendarGrid";
 
 interface NiceCalendarProps {
   title: string;
@@ -20,10 +16,10 @@ interface NiceCalendarProps {
   toggleTheme: () => void;
   handleDownload: () => Promise<void>;
   currentTheme: ThemeColors;
-  daysOfWeek: DayOfWeek[];
-  hours: HourMark[];
-  classes: ClassItem[];
-  getClassStyle: (classItem: ClassItem) => {
+  daysOfWeek: any[];
+  hours: any[];
+  classes: any[];
+  getClassStyle: (classItem: any) => {
     top: string;
     height: string;
     left: string;
@@ -53,7 +49,7 @@ export const NiceCalendar = ({
   fullCalendarRef,
   handleOpenPasteModal
 }: NiceCalendarProps) => {
-  // CSS styles without Tailwind color utilities to prevent OKLCH format issues
+  // Panel styles
   const panelStyle = {
     backgroundColor: currentTheme.panel,
     borderRadius: "0.75rem",
@@ -104,8 +100,10 @@ export const NiceCalendar = ({
     width: "2.5rem",
     height: "2.5rem",
     cursor: "pointer",
-    borderRadius: "9999px",
-    overflow: "hidden"
+    borderRadius: "50%",
+    overflow: "hidden",
+    border: "2px solid white",
+    boxShadow: "0 0 0 1px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.1)"
   };
 
   const pasteScheduleButtonStyle = {
@@ -120,61 +118,57 @@ export const NiceCalendar = ({
     marginRight: "1rem"
   };
 
-  const toggleButtonStyle = {
-    display: "flex",
-    alignItems: "center",
-    backgroundColor: darkMode ? "#6b7280" : "#f3f4f6",
-    color: darkMode ? "#ffffff" : "#000000",
-    padding: "0.5rem 0.75rem",
-    borderRadius: "0.25rem",
+  const toggleSwitchStyle = {
+    position: "relative" as const,
+    display: "inline-block",
+    width: "48px",
+    height: "24px",
+    marginLeft: "8px"
+  };
+  
+  const toggleInputStyle = {
+    opacity: 0,
+    width: 0,
+    height: 0
+  };
+  
+  const toggleSliderStyle = {
+    position: "absolute" as const,
     cursor: "pointer",
-    border: `1px solid ${currentTheme.border}`
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: darkMode ? "#6b7280" : "#cbd5e1",
+    borderRadius: "24px",
+    transition: "0.4s",
+    boxShadow: "0 0 2px rgba(0,0,0,0.3) inset"
   };
-
-  const classTextStyle = {
-    fontSize: "0.875rem", 
-    fontWeight: "600",
-    color: "#000000", // Always black text
-    display: "-webkit-box", 
-    WebkitLineClamp: 2, 
-    WebkitBoxOrient: "vertical" as const,
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-  };
-
-  const classTimeStyle = {
-    fontSize: "0.75rem",
-    color: "#000000", // Always black text
+  
+  const toggleSliderBeforeStyle = {
+    position: "absolute" as const,
+    content: '""',
+    height: "20px",
+    width: "20px",
+    left: darkMode ? "2px" : "26px",
+    bottom: "2px",
+    backgroundColor: "#ffffff",
+    borderRadius: "50%",
+    transition: "0.4s",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.3)"
   };
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: currentTheme.background, color: currentTheme.text }}>
       {/* Header */}
-      <header style={{ backgroundColor: darkMode ? "#1a1a1a" : "#f8fafc", color: currentTheme.text, padding: "0.75rem 1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ display: "flex", alignItems: "center" }}></div>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <div style={{ marginRight: "1rem" }}>
-            <button style={{ display: "flex", alignItems: "center", color: currentTheme.text }}>
-              <span style={{ marginRight: "0.5rem" }}>BUSCA AQUÍ</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-            </button>
-          </div>
-          <button style={{ color: currentTheme.text }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-          </button>
-        </div>
-      </header>
+      <NiceCalendarHeader 
+        currentTheme={currentTheme} 
+        darkMode={darkMode} 
+      />
 
       {/* Calendar Container */}
       <div style={{ flex: "1", backgroundColor: currentTheme.background, color: currentTheme.text, padding: "1rem" }}>
-        {/* Settings Panel - Using inline styles to avoid OKLCH colors */}
+        {/* Settings Panel */}
         <div style={panelStyle}>
           <div style={inputContainerStyle}>
             <input 
@@ -209,23 +203,31 @@ export const NiceCalendar = ({
             
             <div style={colorPickerLabelStyle}>
               <span style={{ marginRight: "0.5rem" }}>Color:</span>
-              <div style={colorPickerStyle}>
+              <div 
+                style={{
+                  ...colorPickerStyle,
+                  backgroundColor: selectedColor,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
                 <input 
                   type="color" 
                   value={selectedColor}
                   onChange={handleColorChange}
                   style={{
+                    opacity: 0,
+                    position: "absolute",
                     width: "100%",
                     height: "100%",
-                    alignSelf: "center",
-
+                    cursor: "pointer",
                   }}
-                  
                 />
               </div>
             </div>
             
-            {/* Botón para pegar horario */}
+            {/* Paste schedule button */}
             <button 
               onClick={handleOpenPasteModal}
               style={pasteScheduleButtonStyle}
@@ -237,10 +239,14 @@ export const NiceCalendar = ({
               Pega horario
             </button>
             
-            <button onClick={toggleTheme} style={toggleButtonStyle}>
-              {darkMode ? (
-                <>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: "0.5rem" }}>
+            <div style={{ display: "flex", alignItems: "center", marginLeft: "1rem" }}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                {darkMode ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="5"></circle>
                     <line x1="12" y1="1" x2="12" y2="3"></line>
                     <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -251,87 +257,37 @@ export const NiceCalendar = ({
                     <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
                     <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                   </svg>
-                  Claro
-                </>
-              ) : (
-                <>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: "0.5rem" }}>
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                  </svg>
-                  Oscuro
-                </>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Full calendar div (includes title, subtitle and calendar) for screenshot */}
-        <div ref={fullCalendarRef} style={{ backgroundColor: currentTheme.background, color: currentTheme.text, padding: "0.5rem" }}>
-          {/* Title and subtitle */}
-          <div style={{ marginBottom: "1.5rem" }}>
-            <h1 style={{ fontSize: "1.5rem", fontWeight: "bold" }}>{title || "Mi Horario de Clases"}</h1>
-            <p style={{ color: darkMode ? "#9ca3af" : "#6b7280" }}>{subtitle || "Semestre 1, 2025 • GMT-04"}</p>
-          </div>
-
-          {/* Calendar Grid */}
-          <div style={{ position: "relative", overflowX: "auto" }} ref={calendarRef}>          
-            <div style={{ display: "flex" }}>
-              {/* Time column */}
-              <div style={{ width: "4rem", flexShrink: 0 }}>
-                <div style={{ height: "4rem", display: "flex", alignItems: "flex-end", justifyContent: "center", fontWeight: "600", color: currentTheme.hourText }}>
-                  GMT-04
-                </div>
-                
-                {/* Time labels */}
-                {hours.map(hour => (
-                  <div key={hour.hour} style={{ height: "60px", display: "flex", alignItems: "center", justifyContent: "center", borderTop: `1px solid ${currentTheme.grid}` }}>
-                    <span style={{ fontSize: "0.875rem", color: currentTheme.hourText }}>{hour.display}</span>
-                  </div>
-                ))}
+                )}
+                <label style={toggleSwitchStyle}>
+                  <input
+                    type="checkbox"
+                    checked={darkMode}
+                    onChange={toggleTheme}
+                    style={toggleInputStyle}
+                  />
+                  <span style={toggleSliderStyle}>
+                    <span style={toggleSliderBeforeStyle}></span>
+                  </span>
+                </label>
               </div>
-              
-              {/* Days columns */}
-              {daysOfWeek.map((day, index) => (
-                <div key={index} style={{ flex: "1", minWidth: "120px" }}>
-                  {/* Day header */}
-                  <div style={{ height: "4rem", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                    <div style={{ fontSize: "1rem", color: currentTheme.text }}>{day.abbr}</div>
-                  </div>
-                  
-                  {/* Grid cells for each hour */}
-                  <div style={{ position: "relative" }}>
-                    {hours.map(hour => (
-                      <div key={hour.hour} style={{ height: "60px", borderTop: `1px solid ${currentTheme.grid}` }}></div>
-                    ))}
-                    
-                    {/* Classes */}
-                    {classes
-                      .filter(classItem => classItem.dayIndex === index)
-                      .map(classItem => (
-                        <div
-                          key={classItem.id}
-                          style={{
-                            position: "absolute",
-                            padding: "0.5rem",
-                            borderRadius: "0.5rem", // Rounded corners
-                            marginLeft: "0.25rem",
-                            marginRight: "0.25rem",
-                            overflow: "hidden",
-                            backgroundColor: selectedColor,
-                            ...getClassStyle(classItem)
-                          }}
-                        >
-                          <div style={classTextStyle}>{classItem.name}</div>
-                          <div style={classTimeStyle}>{classItem.time}</div>
-                        </div>
-                      ))
-                    }
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </div>
+
+        {/* Calendar content */}
+        <NiceCalendarGrid
+          fullCalendarRef={fullCalendarRef}
+          calendarRef={calendarRef}
+          title={title}
+          subtitle={subtitle}
+          currentTheme={currentTheme}
+          darkMode={darkMode}
+          daysOfWeek={daysOfWeek}
+          hours={hours}
+          classes={classes}
+          selectedColor={selectedColor}
+          getClassStyle={getClassStyle}
+        />
       </div>
     </div>
   );
