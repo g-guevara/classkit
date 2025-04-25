@@ -67,9 +67,9 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-[#0a0a0a]">
       {/* Header */}
-      <header className="bg-[#1a1a1a] text-white py-3 px-4 flex justify-between items-center">
+      <header className="bg-[#1a1a1a] dark:bg-[#1a1a1a] text-white py-3 px-4 flex justify-between items-center">
         <div className="flex items-center">
         
         </div>
@@ -113,7 +113,7 @@ export default function Home() {
       {/* Description Section */}
       <div className="px-6 md:px-16 py-10 grid md:grid-cols-2 gap-8">
         <div>
-          <p className="text-gray-700 mb-4">
+          <p className="text-gray-700 dark:text-gray-300 mb-4">
             Destácate como estudiante desarrollando una aplicación o página web que tenga un impacto positivo en nuestra comunidad. 
           </p>
           {/* Botón "AGREGA TU APP" - rectangular, sin bordes redondeados, sin sombra, celeste */}
@@ -125,7 +125,7 @@ export default function Home() {
           </Link>
         </div>
         <div>
-          <button className="w-full bg-black text-white p-6 flex justify-between items-center group transition-all hover:bg-gray-800">
+          <button className="w-full bg-black dark:bg-[#1a1a1a] text-white p-6 flex justify-between items-center group transition-all hover:bg-gray-800 dark:hover:bg-gray-700">
             <div className="text-left">
               <h3 className="text-xl font-bold mb-2">IdeaLink</h3>
               <p className="text-sm text-gray-300">
@@ -146,8 +146,8 @@ export default function Home() {
       <div className="px-6 md:px-16 pb-16">
         <div className="mb-4 flex flex-col md:flex-row md:items-center md:justify-between">
           <div>
-            <h2 className="text-3xl font-bold inline">Conoce</h2>
-            <span className="text-3xl text-gray-600 ml-2">nuestras apps</span>
+            <h2 className="text-3xl font-bold inline text-black dark:text-white">Conoce</h2>
+            <span className="text-3xl text-gray-600 dark:text-gray-400 ml-2">nuestras apps</span>
           </div>
           
           {/* Barra de búsqueda */}
@@ -156,13 +156,13 @@ export default function Home() {
               <input
                 type="text"
                 placeholder="Buscar por título o autor..."
-                className="w-full p-3 pl-10 border border-gray-300  focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 pl-10 border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1a1a1a] text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
-                className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" 
+                className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" 
                 fill="none" 
                 viewBox="0 0 24 24" 
                 stroke="currentColor"
@@ -171,7 +171,7 @@ export default function Home() {
               </svg>
               {searchTerm && (
                 <button 
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
                   onClick={() => setSearchTerm("")}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -183,22 +183,22 @@ export default function Home() {
           </div>
         </div>
         
-        <hr className="border-t border-gray-200 mb-8" />
+        <hr className="border-t border-gray-200 dark:border-gray-600 mb-8" />
 
         {/* Mostrar mensaje cuando no hay resultados */}
         {filteredCourses.length === 0 && (
           <div className="text-center py-8">
-            <p className="text-gray-600">No se encontraron apps que coincidan con tu búsqueda.</p>
+            <p className="text-gray-600 dark:text-gray-400">No se encontraron apps que coincidan con tu búsqueda.</p>
           </div>
         )}
 
         {/* Courses Grid - Con fotos de app más pequeñas */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 relative">
           {filteredCourses.map((course) => (
-            <div key={course.id} className="border border-gray-300  overflow-hidden">
+            <div key={course.id} className="border border-gray-300 dark:border-gray-500 bg-white dark:bg-[#1a1a1a] overflow-hidden">
               {/* Contenedor de imagen con padding mayor para hacer que la imagen sea más pequeña */}
-              <div className="h-40 relative p-4 bg-gray-50 flex items-center justify-center">
-                <div className="w-28 h-28 relative rounded-3xl overflow-hidden shadow-md border border-gray-200">
+              <div className="h-40 relative p-4 bg-gray-50 dark:bg-[#27272a] flex items-center justify-center">
+                <div className="w-28 h-28 relative rounded-3xl overflow-hidden shadow-md border border-gray-200 dark:border-gray-500">
                   <Image 
                     src={course.imageUrl} 
                     alt={course.title}
@@ -210,13 +210,13 @@ export default function Home() {
               
               {/* El resto mantiene el estilo original */}
               <div className="p-4">
-                <h3 className="font-bold text-lg mb-2">{course.title}</h3>
-                <p className="text-sm text-gray-400 italic mb-2">Por: {course.author}</p>             
-                <p className="text-sm text-gray-600 mb-2">{course.description}</p>
+                <h3 className="font-bold text-lg mb-2 text-black dark:text-white">{course.title}</h3>
+                <p className="text-sm text-gray-400 dark:text-gray-500 italic mb-2">Por: {course.author}</p>             
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{course.description}</p>
 
                 <Link 
                   href={course.link} 
-                  className="text-blue-500 font-medium text-sm inline-block"
+                  className="text-blue-500 dark:text-blue-400 font-medium text-sm inline-block hover:text-blue-600 dark:hover:text-blue-300"
                 >
                   SABER +
                 </Link>
