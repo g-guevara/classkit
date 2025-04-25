@@ -7,12 +7,13 @@ export interface DayOfWeek {
 }
 
 export interface ClassItem {
-  id: number | string; // Allow both number and string
+  id: number | string;
   name: string;
   dayIndex: number;
   startHour: number;
   endHour: number;
   time: string;
+  color?: string; // <-- Añade esta línea
 }
 
 export interface HourMark {

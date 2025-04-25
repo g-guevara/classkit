@@ -171,7 +171,7 @@ export const renderCalendarToCanvas = (props: CalendarRenderProps): HTMLCanvasEl
     const height = (endHour - startHour) * hourHeight - 6;
     
     // Draw class box with more padding for text
-    ctx.fillStyle = selectedColor;
+    ctx.fillStyle = classItem.color || selectedColor;
     drawRoundedRect(ctx, x, y, width, height, 8, true, false);
     
     // Calculate text padding

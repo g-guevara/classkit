@@ -106,16 +106,30 @@ export const HorarioComunContainer = () => {
   // Handle download using the canvas renderer
   const handleDownload = async () => {
     try {
+      // Create a new array of classes with proper colors assigned
+      const coloredClasses = schedules.flatMap((schedule, scheduleIndex) => 
+        schedule.classes.map(classItem => {
+          // Check if this time slot is common
+          const isCommonTimeSlot = isClassInCommonSlots(classItem, commonTimeSlots);
+          
+          return {
+            ...classItem,
+            color: isCommonTimeSlot ? "#10B981" : scheduleColors[scheduleIndex],
+            id: `${scheduleIndex}-${classItem.id}`, // Ensure unique IDs
+          };
+        })
+      );
+      
       // Create canvas and render calendar on it
       const canvas = renderCalendarToCanvas({
         title: title || "Horario en Común",
         subtitle: subtitle || "Comparación de horarios de clases",
-        selectedColor: "#3B82F6", // Use default blue color
+        selectedColor: "#3B82F6", // Default color fallback
         darkMode,
         currentTheme,
         daysOfWeek,
         hours,
-        classes: combinedClasses
+        classes: coloredClasses
       });
       
       // Create download link
