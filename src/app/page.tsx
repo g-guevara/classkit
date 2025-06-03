@@ -124,22 +124,39 @@ export default function Home() {
             AGREGA TU APP
           </Link>
         </div>
-        <div>
-          <button className="w-full bg-black dark:bg-[#1a1a1a] text-white p-6 flex justify-between items-center group transition-all hover:bg-gray-800 dark:hover:bg-gray-700">
-            <div className="text-left">
-              <h3 className="text-xl font-bold mb-2">IdeaLink</h3>
-              <p className="text-sm text-gray-300">
-                Blog para vinculación de estudiantes y ideas: arma tu equipo de distintas carreras y logra llevar a cabo tu proyecto.
-              </p>
-            </div>
-            <div className="ml-4">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover:translate-x-1 transition-transform">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </div>
-          </button>
-        </div>
+<div>
+  <a
+    href="https://kaleidoscopic-phoenix-6f5c6b.netlify.app/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="w-full bg-black dark:bg-[#1a1a1a] text-white p-6 flex justify-between items-center group transition-all hover:bg-gray-800 dark:hover:bg-gray-700"
+  >
+    <div className="text-left">
+      <h3 className="text-xl font-bold mb-2">IdeaLink</h3>
+      <p className="text-sm text-gray-300">
+        Blog para vinculación de estudiantes y ideas: arma tu equipo de distintas carreras y logra llevar a cabo tu proyecto.
+      </p>
+    </div>
+    <div className="ml-4">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="transform group-hover:translate-x-1 transition-transform"
+      >
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </div>
+  </a>
+</div>
+
       </div>
 
       {/* Apps Section with Search */}
