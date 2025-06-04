@@ -187,7 +187,6 @@ export const HorarioComun = ({
 
   // Calculate if any schedules have been loaded
   const anyScheduleLoaded = schedules.some(schedule => schedule.isLoaded);
-  const allSchedulesLoaded = schedules.every(schedule => schedule.isLoaded);
 
   // Combine all classes from all schedules for display
   // Add a unique key by combining the schedule index with the class id
@@ -284,7 +283,6 @@ export const HorarioComun = ({
                 style={buttonStyle}
                 type="button"
               >
-                {/* Icono y texto cambian según el dispositivo */}
                 {/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? (
                   <>
                     Compartir

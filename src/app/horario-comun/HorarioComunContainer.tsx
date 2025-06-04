@@ -51,9 +51,6 @@ export const HorarioComunContainer = () => {
   const [daysOfWeek] = useState<DayOfWeek[]>(DEFAULT_DAYS_OF_WEEK);
   const [hours] = useState<HourMark[]>(DEFAULT_HOURS);
 
-  // Computed classes that combine all schedules
-  const combinedClasses = schedules.flatMap(schedule => schedule.classes);
-
   // Find common time slots (classes that overlap)
   const commonTimeSlots = findCommonTimeSlots(schedules);
 
@@ -179,7 +176,7 @@ export const HorarioComunContainer = () => {
               try {
                 await navigator.share(shareData);
                 return; // Salir si el compartir fue exitoso
-              } catch (shareError) {
+              } catch {
                 console.log('Compartir cancelado por el usuario');
                 // Continuar con descarga tradicional como fallback
               }
@@ -379,7 +376,7 @@ function findCommonTimeSlots(schedules: ScheduleData[]): ClassItem[] {
   
   // Find keys that appear in all active schedules
   const commonKeys = Array.from(dayTimeMap.entries())
-    .filter(([_, count]) => count === activeSchedules.length)
+    .filter(([, count]) => count === activeSchedules.length)
     .map(([key]) => key);
   
   // Group consecutive time slots by day
@@ -394,7 +391,6 @@ function findCommonTimeSlots(schedules: ScheduleData[]): ClassItem[] {
   });
   
   // Convert grouped time slots to ClassItems
-  let id = 1;
   groupedByDay.forEach((times, dayIndex) => {
     // Sort times
     times.sort((a, b) => a - b);

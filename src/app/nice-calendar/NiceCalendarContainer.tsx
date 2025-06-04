@@ -70,7 +70,7 @@ export const NiceCalendarContainer = () => {
     }
     
     handleClosePasteModal();
-  }, [pasteValue]);
+  }, [pasteValue, handleClosePasteModal]);
 
   // Función para mostrar instrucciones al usuario
   const showDownloadInstructions = () => {
@@ -134,7 +134,7 @@ export const NiceCalendarContainer = () => {
               try {
                 await navigator.share(shareData);
                 return; // Salir si el compartir fue exitoso
-              } catch (shareError) {
+              } catch {
                 console.log('Compartir cancelado por el usuario');
                 // Continuar con descarga tradicional como fallback
               }
