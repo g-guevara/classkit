@@ -72,7 +72,34 @@ export const NiceCalendarContainer = () => {
     handleClosePasteModal();
   }, [pasteValue]);
 
-  // Handle download using the canvas renderer
+  // Función para mostrar instrucciones al usuario
+  const showDownloadInstructions = () => {
+    // Detectar si es móvil
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+      alert(
+        'La imagen se ha descargado a tu carpeta de Descargas.\n\n' +
+        'Para guardarla en tu galería:\n' +
+        '• Abre la app Archivos/Descargas\n' +
+        '• Busca el archivo descargado\n' +
+        '• Tócalo y selecciona "Guardar en Galería" o "Compartir"'
+      );
+    }
+  };
+
+  // Función de descarga tradicional como fallback
+  const fallbackDownload = (canvas: HTMLCanvasElement) => {
+    const link = document.createElement('a');
+    link.download = `${title || 'horario'}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    
+    // Mostrar mensaje informativo
+    showDownloadInstructions();
+  };
+
+  // Handle download usando Web Share API con fallback
   const handleDownload = async () => {
     try {
       // Create canvas and render calendar on it
@@ -87,15 +114,44 @@ export const NiceCalendarContainer = () => {
         classes
       });
       
-      // Create download link
-      const link = document.createElement('a');
-      link.download = `${title || 'horario'}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      // Verificar si el dispositivo soporta Web Share API
+      if (navigator.share && navigator.canShare) {
+        // Convertir canvas a blob
+        canvas.toBlob(async (blob) => {
+          if (blob) {
+            const file = new File([blob], `${title || 'horario'}.png`, {
+              type: 'image/png'
+            });
+            
+            const shareData = {
+              title: title || 'Mi Horario de Clases',
+              text: 'Mi horario de clases',
+              files: [file]
+            };
+            
+            // Verificar si se puede compartir el archivo
+            if (navigator.canShare(shareData)) {
+              try {
+                await navigator.share(shareData);
+                return; // Salir si el compartir fue exitoso
+              } catch (shareError) {
+                console.log('Compartir cancelado por el usuario');
+                // Continuar con descarga tradicional como fallback
+              }
+            }
+          }
+          
+          // Fallback a descarga tradicional
+          fallbackDownload(canvas);
+        }, 'image/png');
+      } else {
+        // Fallback para navegadores que no soportan Web Share API
+        fallbackDownload(canvas);
+      }
       
     } catch (error) {
       console.error('Error generating calendar image:', error);
-      alert('No se pudo descargar la imagen. Intente de nuevo más tarde.');
+      alert('No se pudo procesar la imagen. Intente de nuevo más tarde.');
     }
   };
 
